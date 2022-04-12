@@ -42,6 +42,16 @@ namespace MyHW
                     conn.Close();
                 }
             }
+            SqlConnection conn1 = new SqlConnection("Data Source =.; Initial Catalog = Northwind; Integrated Security = True");
+            SqlDataAdapter adapter1 = new SqlDataAdapter("select * from Categories", conn1);
+            DataSet ds = new DataSet();
+            adapter1.Fill(ds);
+           
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                comboBox2.Items.Add(ds.Tables[0].Rows[i]["CategoryName"]);
+            }
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -74,6 +84,15 @@ namespace MyHW
                     conn.Close();
                 }
             }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SqlConnection conn2 = new SqlConnection("Data Source =.; Initial Catalog = Northwind; Integrated Security = True");
+            SqlDataAdapter adapter2 = new SqlDataAdapter($"select * from Products p join Categories c on p.CategoryID=c.CategoryID where CategoryName = '{comboBox2.Text}'", conn2);
+            DataSet ds2 = new DataSet();
+            adapter2.Fill(ds2);
+            this.dataGridView1.DataSource = ds2.Tables[0];
         }
     }
 }
