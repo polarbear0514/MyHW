@@ -51,7 +51,19 @@ namespace MyHW
             {
                 comboBox2.Items.Add(ds.Tables[0].Rows[i]["CategoryName"]);
             }
-            
+
+            this.categoriesTableAdapter1.FillByCategoryName(this.nwDataSet1.Categories);
+            this.nwDataSet1.Categories[0].CategoryName.ToString();
+            for (int i = 0; i <= this.nwDataSet1.Tables.Count - 1; i++)
+            {
+                DataTable table = this.nwDataSet1.Tables[i];
+                for (int row = 0; row <= table.Rows.Count - 1; row++)
+                {
+                    this.comboBox3.Items.Add(this.nwDataSet1.Categories[row].CategoryName.ToString());
+                }
+            }
+
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -93,6 +105,13 @@ namespace MyHW
             DataSet ds2 = new DataSet();
             adapter2.Fill(ds2);
             this.dataGridView1.DataSource = ds2.Tables[0];
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.productsTableAdapter1.FillByAdapter(this.nwDataSet1.Products, comboBox3.Text);
+                
+            this.dataGridView2.DataSource = this.nwDataSet1.Products;
         }
     }
 }
