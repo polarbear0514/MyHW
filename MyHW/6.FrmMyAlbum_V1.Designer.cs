@@ -34,15 +34,21 @@ namespace MyHW
             System.Windows.Forms.Label areaIdLabel1;
             System.Windows.Forms.Label descriptionLabel;
             System.Windows.Forms.Label pictureLabel;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMyAlbum_V1));
             System.Windows.Forms.Label areaNameLabel;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMyAlbum_V1));
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureIdTextBox = new System.Windows.Forms.TextBox();
+            this.pictureBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.maDataSet1 = new MyHW.MADataSet();
             this.areaIdTextBox1 = new System.Windows.Forms.TextBox();
             this.descriptionTextBox = new System.Windows.Forms.TextBox();
             this.picturePictureBox = new System.Windows.Forms.PictureBox();
             this.pictureDataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.pictureBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
@@ -56,12 +62,6 @@ namespace MyHW
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.pictureBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
-            this.pictureBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.maDataSet1 = new MyHW.MADataSet();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.areaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.areaTableAdapter1 = new MyHW.MADataSetTableAdapters.AreaTableAdapter();
             this.pictureTableAdapter1 = new MyHW.MADataSetTableAdapters.PictureTableAdapter();
@@ -72,14 +72,59 @@ namespace MyHW
             descriptionLabel = new System.Windows.Forms.Label();
             pictureLabel = new System.Windows.Forms.Label();
             areaNameLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maDataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picturePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBindingNavigator)).BeginInit();
             this.pictureBindingNavigator.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.maDataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).BeginInit();
             this.SuspendLayout();
+            // 
+            // pictureIdLabel
+            // 
+            pictureIdLabel.AutoSize = true;
+            pictureIdLabel.Location = new System.Drawing.Point(608, 99);
+            pictureIdLabel.Name = "pictureIdLabel";
+            pictureIdLabel.Size = new System.Drawing.Size(53, 12);
+            pictureIdLabel.TabIndex = 10;
+            pictureIdLabel.Text = "Picture Id:";
+            // 
+            // areaIdLabel1
+            // 
+            areaIdLabel1.AutoSize = true;
+            areaIdLabel1.Location = new System.Drawing.Point(608, 127);
+            areaIdLabel1.Name = "areaIdLabel1";
+            areaIdLabel1.Size = new System.Drawing.Size(43, 12);
+            areaIdLabel1.TabIndex = 12;
+            areaIdLabel1.Text = "Area Id:";
+            // 
+            // descriptionLabel
+            // 
+            descriptionLabel.AutoSize = true;
+            descriptionLabel.Location = new System.Drawing.Point(608, 155);
+            descriptionLabel.Name = "descriptionLabel";
+            descriptionLabel.Size = new System.Drawing.Size(61, 12);
+            descriptionLabel.TabIndex = 14;
+            descriptionLabel.Text = "Description:";
+            // 
+            // pictureLabel
+            // 
+            pictureLabel.AutoSize = true;
+            pictureLabel.Location = new System.Drawing.Point(608, 180);
+            pictureLabel.Name = "pictureLabel";
+            pictureLabel.Size = new System.Drawing.Size(40, 12);
+            pictureLabel.TabIndex = 16;
+            pictureLabel.Text = "Picture:";
+            // 
+            // areaNameLabel
+            // 
+            areaNameLabel.AutoSize = true;
+            areaNameLabel.Location = new System.Drawing.Point(608, 70);
+            areaNameLabel.Name = "areaNameLabel";
+            areaNameLabel.Size = new System.Drawing.Size(60, 12);
+            areaNameLabel.TabIndex = 20;
+            areaNameLabel.Text = "Area Name:";
             // 
             // label1
             // 
@@ -101,15 +146,7 @@ namespace MyHW
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(125, 324);
             this.panel1.TabIndex = 5;
-            // 
-            // pictureIdLabel
-            // 
-            pictureIdLabel.AutoSize = true;
-            pictureIdLabel.Location = new System.Drawing.Point(608, 99);
-            pictureIdLabel.Name = "pictureIdLabel";
-            pictureIdLabel.Size = new System.Drawing.Size(53, 12);
-            pictureIdLabel.TabIndex = 10;
-            pictureIdLabel.Text = "Picture Id:";
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // pictureIdTextBox
             // 
@@ -119,14 +156,15 @@ namespace MyHW
             this.pictureIdTextBox.Size = new System.Drawing.Size(209, 22);
             this.pictureIdTextBox.TabIndex = 11;
             // 
-            // areaIdLabel1
+            // pictureBindingSource
             // 
-            areaIdLabel1.AutoSize = true;
-            areaIdLabel1.Location = new System.Drawing.Point(608, 127);
-            areaIdLabel1.Name = "areaIdLabel1";
-            areaIdLabel1.Size = new System.Drawing.Size(43, 12);
-            areaIdLabel1.TabIndex = 12;
-            areaIdLabel1.Text = "Area Id:";
+            this.pictureBindingSource.DataMember = "Picture";
+            this.pictureBindingSource.DataSource = this.maDataSet1;
+            // 
+            // maDataSet1
+            // 
+            this.maDataSet1.DataSetName = "MADataSet";
+            this.maDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // areaIdTextBox1
             // 
@@ -136,15 +174,6 @@ namespace MyHW
             this.areaIdTextBox1.Size = new System.Drawing.Size(209, 22);
             this.areaIdTextBox1.TabIndex = 13;
             // 
-            // descriptionLabel
-            // 
-            descriptionLabel.AutoSize = true;
-            descriptionLabel.Location = new System.Drawing.Point(608, 155);
-            descriptionLabel.Name = "descriptionLabel";
-            descriptionLabel.Size = new System.Drawing.Size(61, 12);
-            descriptionLabel.TabIndex = 14;
-            descriptionLabel.Text = "Description:";
-            // 
             // descriptionTextBox
             // 
             this.descriptionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.pictureBindingSource, "Description", true));
@@ -152,15 +181,6 @@ namespace MyHW
             this.descriptionTextBox.Name = "descriptionTextBox";
             this.descriptionTextBox.Size = new System.Drawing.Size(209, 22);
             this.descriptionTextBox.TabIndex = 15;
-            // 
-            // pictureLabel
-            // 
-            pictureLabel.AutoSize = true;
-            pictureLabel.Location = new System.Drawing.Point(608, 180);
-            pictureLabel.Name = "pictureLabel";
-            pictureLabel.Size = new System.Drawing.Size(40, 12);
-            pictureLabel.TabIndex = 16;
-            pictureLabel.Text = "Picture:";
             // 
             // picturePictureBox
             // 
@@ -187,6 +207,31 @@ namespace MyHW
             this.pictureDataGridView.RowTemplate.Height = 24;
             this.pictureDataGridView.Size = new System.Drawing.Size(450, 324);
             this.pictureDataGridView.TabIndex = 17;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "PictureId";
+            this.dataGridViewTextBoxColumn1.HeaderText = "PictureId";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "AreaId";
+            this.dataGridViewTextBoxColumn2.HeaderText = "AreaId";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Description";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Description";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.DataPropertyName = "Picture";
+            this.dataGridViewImageColumn1.HeaderText = "Picture";
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
             // 
             // pictureBindingNavigator
             // 
@@ -312,41 +357,6 @@ namespace MyHW
             this.pictureBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
             this.pictureBindingNavigatorSaveItem.Text = "儲存資料";
             // 
-            // pictureBindingSource
-            // 
-            this.pictureBindingSource.DataMember = "Picture";
-            this.pictureBindingSource.DataSource = this.maDataSet1;
-            // 
-            // maDataSet1
-            // 
-            this.maDataSet1.DataSetName = "MADataSet";
-            this.maDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.DataPropertyName = "PictureId";
-            this.dataGridViewTextBoxColumn1.HeaderText = "PictureId";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "AreaId";
-            this.dataGridViewTextBoxColumn2.HeaderText = "AreaId";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Description";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Description";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            // 
-            // dataGridViewImageColumn1
-            // 
-            this.dataGridViewImageColumn1.DataPropertyName = "Picture";
-            this.dataGridViewImageColumn1.HeaderText = "Picture";
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            // 
             // areaBindingSource
             // 
             this.areaBindingSource.DataMember = "Area";
@@ -366,15 +376,6 @@ namespace MyHW
             this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
             this.tableAdapterManager.PictureTableAdapter = this.pictureTableAdapter1;
             this.tableAdapterManager.UpdateOrder = MyHW.MADataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
-            // 
-            // areaNameLabel
-            // 
-            areaNameLabel.AutoSize = true;
-            areaNameLabel.Location = new System.Drawing.Point(608, 70);
-            areaNameLabel.Name = "areaNameLabel";
-            areaNameLabel.Size = new System.Drawing.Size(60, 12);
-            areaNameLabel.TabIndex = 20;
-            areaNameLabel.Text = "Area Name:";
             // 
             // areaNameTextBox
             // 
@@ -405,13 +406,13 @@ namespace MyHW
             this.Controls.Add(this.label1);
             this.Name = "FrmMyAlbum_V1";
             this.Text = "FrmMyAlbum_V1";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maDataSet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picturePictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBindingNavigator)).EndInit();
             this.pictureBindingNavigator.ResumeLayout(false);
             this.pictureBindingNavigator.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.maDataSet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

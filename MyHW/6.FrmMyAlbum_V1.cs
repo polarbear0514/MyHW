@@ -54,6 +54,8 @@ namespace MyHW
             }
 
 
+
+
         }
 
         private void areaBindingNavigatorSaveItem_Click(object sender, EventArgs e)
@@ -61,6 +63,11 @@ namespace MyHW
             this.Validate();
             this.areaBindingSource.EndEdit();
             this.tableAdapterManager.UpdateAll(this.maDataSet1);
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }
