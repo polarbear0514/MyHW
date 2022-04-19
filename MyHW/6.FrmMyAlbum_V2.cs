@@ -21,6 +21,7 @@ namespace MyHW
             InitializeComponent();
             this.areaTableAdapter1.Fill(this.maDataSet1.Area);
             this.pictureTableAdapter1.Fill(this.maDataSet1.Picture);
+            this.dataGridView1.DataSource = this.maDataSet1.Picture;
             this.maDataSet1.Area[0].AreaName.ToString();
             this.pictureBox1.AllowDrop = true;
             this.pictureBox1.DragEnter += PictureBox1_DragEnter;
