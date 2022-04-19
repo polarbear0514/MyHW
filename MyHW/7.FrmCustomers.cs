@@ -21,6 +21,7 @@ namespace MyHW
             this.listView1.View = View.Details;
             CreateListViewColumn();
         }
+
         private void CreateListViewColumn()
         {
             try
@@ -54,6 +55,7 @@ namespace MyHW
                     SqlCommand command = new SqlCommand("select distinct country from Customers", conn);
                     SqlDataReader dataReader = command.ExecuteReader();
                     this.comboBox1.Items.Clear();
+                    this.comboBox1.Items.Add("All Country");
                     while (dataReader.Read())
                     {
                         this.comboBox1.Items.Add(dataReader["country"]);
@@ -74,33 +76,246 @@ namespace MyHW
                 using (SqlConnection conn = new SqlConnection(Settings.Default.NorthwindConnectionString))
                 {
                     conn.Open();
-                    SqlCommand command = new SqlCommand();
-                    command.CommandText = $"select * from Customers where country='{this.comboBox1.Text}'";
-                    command.Connection = conn;
-                    SqlDataReader dataReader = command.ExecuteReader();
-                    this.listView1.Items.Clear();
-                    Random r = new Random();
-                    while (dataReader.Read())
+                    if (comboBox1.Text == "All Country")
                     {
-                        ListViewItem lvi = this.listView1.Items.Add(dataReader[0].ToString());
-                        lvi.ImageIndex = r.Next(0, ImageList1.Images.Count);
-                        if (lvi.Index % 2 == 0)
+                        SqlCommand command = new SqlCommand();
+                        command.CommandText = $"select * from Customers ";
+                        command.Connection = conn;
+                        SqlDataReader dataReader = command.ExecuteReader();
+                        this.listView1.Items.Clear();
+                        Random r = new Random();
+                        while (dataReader.Read())
                         {
-                            lvi.BackColor = Color.AntiqueWhite;
-                        }
-                        else
-                        {
-                            lvi.BackColor = Color.LemonChiffon;
-                        }
-                        for (int i = 1; i <= dataReader.FieldCount - 1; i++)
-                        {
-                            if (dataReader.IsDBNull(i))
+                            ListViewItem lvi = this.listView1.Items.Add(dataReader[0].ToString());
+                            lvi.ImageIndex = r.Next(0, ImageList1.Images.Count);                         
+                            if (lvi.Index % 2 == 0)
                             {
-                                lvi.SubItems.Add("Null");
+                                lvi.BackColor = Color.AntiqueWhite;
                             }
                             else
                             {
-                                lvi.SubItems.Add(dataReader[i].ToString());
+                                lvi.BackColor = Color.LemonChiffon;
+                            }
+                            for (int i = 1; i <= dataReader.FieldCount - 1; i++)
+                            {
+                                if (dataReader.IsDBNull(i))
+                                {
+                                    lvi.SubItems.Add("Null");
+                                }
+                                else
+                                {
+                                    lvi.SubItems.Add(dataReader[i].ToString());
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SqlCommand command = new SqlCommand();
+                        command.CommandText = $"select * from Customers where country='{this.comboBox1.Text}'";
+                        command.Connection = conn;
+                        SqlDataReader dataReader = command.ExecuteReader();
+                        this.listView1.Items.Clear();
+                        Random r = new Random();
+                        while (dataReader.Read())
+                        {
+                            ListViewItem lvi = this.listView1.Items.Add(dataReader[0].ToString());
+                            lvi.ImageIndex = r.Next(0, ImageList1.Images.Count);
+                            if (lvi.Index % 2 == 0)
+                            {
+                                lvi.BackColor = Color.AntiqueWhite;
+                            }
+                            else
+                            {
+                                lvi.BackColor = Color.LemonChiffon;
+                            }
+                            for (int i = 1; i <= dataReader.FieldCount - 1; i++)
+                            {
+                                if (dataReader.IsDBNull(i))
+                                {
+                                    lvi.SubItems.Add("Null");
+                                }
+                                else
+                                {
+                                    lvi.SubItems.Add(dataReader[i].ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            this.listView1.View = View.Details;
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            this.listView1.View = View.LargeIcon;
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            this.listView1.View = View.SmallIcon;
+        }
+
+        private void customerIDAscToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(Settings.Default.NorthwindConnectionString))
+                {
+                    conn.Open();
+                    if (comboBox1.Text == "All Country")
+                    {
+                        SqlCommand command = new SqlCommand();
+                        command.CommandText = $"select * from Customers order by CustomerId";
+                        command.Connection = conn;
+                        SqlDataReader dataReader = command.ExecuteReader();
+                        this.listView1.Items.Clear();
+                        Random r = new Random();
+                        while (dataReader.Read())
+                        {
+                            ListViewItem lvi = this.listView1.Items.Add(dataReader[0].ToString());
+                            lvi.ImageIndex = r.Next(0, ImageList1.Images.Count);
+                            if (lvi.Index % 2 == 0)
+                            {
+                                lvi.BackColor = Color.AntiqueWhite;
+                            }
+                            else
+                            {
+                                lvi.BackColor = Color.LemonChiffon;
+                            }
+                            for (int i = 1; i <= dataReader.FieldCount - 1; i++)
+                            {
+                                if (dataReader.IsDBNull(i))
+                                {
+                                    lvi.SubItems.Add("Null");
+                                }
+                                else
+                                {
+                                    lvi.SubItems.Add(dataReader[i].ToString());
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SqlCommand command = new SqlCommand();
+                        command.CommandText = $"select * from Customers where country='{this.comboBox1.Text}' order by CustomerId";
+                        command.Connection = conn;
+                        SqlDataReader dataReader = command.ExecuteReader();
+                        this.listView1.Items.Clear();
+                        Random r = new Random();
+                        while (dataReader.Read())
+                        {
+                            ListViewItem lvi = this.listView1.Items.Add(dataReader[0].ToString());
+                            lvi.ImageIndex = r.Next(0, ImageList1.Images.Count);
+                            if (lvi.Index % 2 == 0)
+                            {
+                                lvi.BackColor = Color.AntiqueWhite;
+                            }
+                            else
+                            {
+                                lvi.BackColor = Color.LemonChiffon;
+                            }
+                            for (int i = 1; i <= dataReader.FieldCount - 1; i++)
+                            {
+                                if (dataReader.IsDBNull(i))
+                                {
+                                    lvi.SubItems.Add("Null");
+                                }
+                                else
+                                {
+                                    lvi.SubItems.Add(dataReader[i].ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void customerIDDescToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(Settings.Default.NorthwindConnectionString))
+                {
+                    conn.Open();
+                    if (comboBox1.Text == "All Country")
+                    {
+                        SqlCommand command = new SqlCommand();
+                        command.CommandText = $"select * from Customers order by CustomerId desc";
+                        command.Connection = conn;
+                        SqlDataReader dataReader = command.ExecuteReader();
+                        this.listView1.Items.Clear();
+                        Random r = new Random();
+                        while (dataReader.Read())
+                        {
+                            ListViewItem lvi = this.listView1.Items.Add(dataReader[0].ToString());
+                            lvi.ImageIndex = r.Next(0, ImageList1.Images.Count);
+                            if (lvi.Index % 2 == 0)
+                            {
+                                lvi.BackColor = Color.AntiqueWhite;
+                            }
+                            else
+                            {
+                                lvi.BackColor = Color.LemonChiffon;
+                            }
+                            for (int i = 1; i <= dataReader.FieldCount - 1; i++)
+                            {
+                                if (dataReader.IsDBNull(i))
+                                {
+                                    lvi.SubItems.Add("Null");
+                                }
+                                else
+                                {
+                                    lvi.SubItems.Add(dataReader[i].ToString());
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SqlCommand command = new SqlCommand();
+                        command.CommandText = $"select * from Customers where country='{this.comboBox1.Text}' order by CustomerId desc";
+                        command.Connection = conn;
+                        SqlDataReader dataReader = command.ExecuteReader();
+                        this.listView1.Items.Clear();
+                        Random r = new Random();
+                        while (dataReader.Read())
+                        {
+                            ListViewItem lvi = this.listView1.Items.Add(dataReader[0].ToString());
+                            lvi.ImageIndex = r.Next(0, ImageList1.Images.Count);
+                            if (lvi.Index % 2 == 0)
+                            {
+                                lvi.BackColor = Color.AntiqueWhite;
+                            }
+                            else
+                            {
+                                lvi.BackColor = Color.LemonChiffon;
+                            }
+                            for (int i = 1; i <= dataReader.FieldCount - 1; i++)
+                            {
+                                if (dataReader.IsDBNull(i))
+                                {
+                                    lvi.SubItems.Add("Null");
+                                }
+                                else
+                                {
+                                    lvi.SubItems.Add(dataReader[i].ToString());
+                                }
                             }
                         }
                     }
