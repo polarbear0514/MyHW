@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,39 +59,46 @@ namespace MyHW
 
         private void FlowLayoutPanel3_DragDrop(object sender, DragEventArgs e)
         {
-            this.areaTableAdapter1.FillByAntoAi(this.maDataSet1.Area, comboBox1.Text);
-            string z = this.maDataSet1.Area[0].AreaId.ToString();
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            for (int i = 0; i <= files.Length - 1; i++)
+            if (string.IsNullOrEmpty(comboBox1.Text))
             {
-                PictureBox pic = new PictureBox();
-                pic.Image = Image.FromFile(files[i]);
-                pic.SizeMode = PictureBoxSizeMode.StretchImage;
-                pic.Width = 120;
-                pic.Height = 160;
-                pic.Click += Pic_Click;
-                this.flowLayoutPanel3.Controls.Add(pic);
+                MessageBox.Show("請選擇分類");
+            }
+            else
+            {
+                this.areaTableAdapter1.FillByAntoAi(this.maDataSet1.Area, comboBox1.Text);
+                string z = this.maDataSet1.Area[0].AreaId.ToString();
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                for (int i = 0; i <= files.Length - 1; i++)
+                {
+                    PictureBox pic = new PictureBox();
+                    pic.Image = Image.FromFile(files[i]);
+                    pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pic.Width = 120;
+                    pic.Height = 160;
+                    pic.Click += Pic_Click;
+                    this.flowLayoutPanel3.Controls.Add(pic);
 
-                try
-                {
-                    using (SqlConnection conn = new SqlConnection(Settings.Default.MyAlbumDBConnectionString))
+                    try
                     {
-                        SqlCommand command = new SqlCommand();
-                        command.CommandText = "Insert into Picture (AreaId,Picture) Values(@AId,@Picture)";
-                        command.Connection = conn;
-                        byte[] bytes;
-                        System.IO.MemoryStream ms = new System.IO.MemoryStream();
-                        pic.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                        bytes = ms.GetBuffer();
-                        command.Parameters.Add("@AId", SqlDbType.Int).Value = z;                
-                        command.Parameters.Add("@Picture", SqlDbType.Image).Value = bytes;
-                        conn.Open();
-                        command.ExecuteNonQuery();
+                        using (SqlConnection conn = new SqlConnection(Settings.Default.MyAlbumDBConnectionString))
+                        {
+                            SqlCommand command = new SqlCommand();
+                            command.CommandText = "Insert into Picture (AreaId,Picture) Values(@AId,@Picture)";
+                            command.Connection = conn;
+                            byte[] bytes;
+                            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                            pic.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                            bytes = ms.GetBuffer();
+                            command.Parameters.Add("@AId", SqlDbType.Int).Value = z;
+                            command.Parameters.Add("@Picture", SqlDbType.Image).Value = bytes;
+                            conn.Open();
+                            command.ExecuteNonQuery();
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
             }
 
@@ -255,19 +263,66 @@ namespace MyHW
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "請選擇所在資料夾";
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (string.IsNullOrEmpty(comboBox1.Text))
             {
-                if (string.IsNullOrEmpty(dialog.SelectedPath))
+                MessageBox.Show("請選擇分類");
+            }
+            else 
+            { 
+            this.areaTableAdapter1.FillByAntoAi(this.maDataSet1.Area, comboBox1.Text);
+            string z = this.maDataSet1.Area[0].AreaId.ToString();
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            this.flowLayoutPanel3.Controls.Clear();
+            dialog.Description = "請選擇所在資料夾";
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show(this, "資料夾路徑不能為空", "提示");
-                    return;
+                    string[] files = Directory.GetFiles(dialog.SelectedPath, "*", SearchOption.TopDirectoryOnly);
+                    List<Image> lstImg = new List<Image>();
+
+                    foreach (string fileName in files)
+                    {
+                        lstImg.Add(Bitmap.FromFile(fileName));
+                    }
+                    for (int i = 0; i <= lstImg.Count - 1; i++)
+                    {
+                        PictureBox pic = new PictureBox();
+                        pic.Image = Image.FromFile(files[i]);
+                        pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                        pic.Width = 120;
+                        pic.Height = 160;
+                        pic.Click += Pic_Click;
+                        this.flowLayoutPanel3.Controls.Add(pic);
+                        try
+                        {
+                            using (SqlConnection conn = new SqlConnection(Settings.Default.MyAlbumDBConnectionString))
+                            {
+                                SqlCommand command = new SqlCommand();
+                                command.CommandText = "Insert into Picture (AreaId,Picture) Values(@AId,@Picture)";
+                                command.Connection = conn;
+                                byte[] bytes;
+                                System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                                pic.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                bytes = ms.GetBuffer();
+                                command.Parameters.Add("@AId", SqlDbType.Int).Value = z;
+                                command.Parameters.Add("@Picture", SqlDbType.Image).Value = bytes;
+                                conn.Open();
+                                command.ExecuteNonQuery();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+                    if (string.IsNullOrEmpty(dialog.SelectedPath))
+                    {
+                        MessageBox.Show(this, "資料夾路徑不能為空", "提示");
+                        return;
+                    }
                 }
             }
         }
-
     }
 }
