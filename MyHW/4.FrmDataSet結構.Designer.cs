@@ -111,7 +111,7 @@ namespace MyHW
             // 
             this.splitContainer2.Panel2.Controls.Add(this.listBox2);
             this.splitContainer2.Size = new System.Drawing.Size(701, 450);
-            this.splitContainer2.SplitterDistance = 231;
+            this.splitContainer2.SplitterDistance = 127;
             this.splitContainer2.TabIndex = 0;
             // 
             // splitContainer3
@@ -128,7 +128,7 @@ namespace MyHW
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(701, 231);
+            this.splitContainer3.Size = new System.Drawing.Size(701, 127);
             this.splitContainer3.SplitterDistance = 222;
             this.splitContainer3.SplitterWidth = 5;
             this.splitContainer3.TabIndex = 4;
@@ -141,7 +141,7 @@ namespace MyHW
             this.dataGridView4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dataGridView4.Name = "dataGridView4";
             this.dataGridView4.RowTemplate.Height = 24;
-            this.dataGridView4.Size = new System.Drawing.Size(222, 231);
+            this.dataGridView4.Size = new System.Drawing.Size(222, 127);
             this.dataGridView4.TabIndex = 1;
             // 
             // splitContainer4
@@ -158,7 +158,7 @@ namespace MyHW
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.dataGridView6);
-            this.splitContainer4.Size = new System.Drawing.Size(474, 231);
+            this.splitContainer4.Size = new System.Drawing.Size(474, 127);
             this.splitContainer4.SplitterDistance = 242;
             this.splitContainer4.SplitterWidth = 5;
             this.splitContainer4.TabIndex = 0;
@@ -171,7 +171,7 @@ namespace MyHW
             this.dataGridView5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dataGridView5.Name = "dataGridView5";
             this.dataGridView5.RowTemplate.Height = 24;
-            this.dataGridView5.Size = new System.Drawing.Size(242, 231);
+            this.dataGridView5.Size = new System.Drawing.Size(242, 127);
             this.dataGridView5.TabIndex = 2;
             // 
             // dataGridView6
@@ -182,18 +182,19 @@ namespace MyHW
             this.dataGridView6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dataGridView6.Name = "dataGridView6";
             this.dataGridView6.RowTemplate.Height = 24;
-            this.dataGridView6.Size = new System.Drawing.Size(227, 231);
+            this.dataGridView6.Size = new System.Drawing.Size(227, 127);
             this.dataGridView6.TabIndex = 3;
             // 
             // listBox2
             // 
             this.listBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox2.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBox2.FormattingEnabled = true;
-            this.listBox2.ItemHeight = 12;
+            this.listBox2.ItemHeight = 14;
             this.listBox2.Location = new System.Drawing.Point(0, 0);
             this.listBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(701, 215);
+            this.listBox2.Size = new System.Drawing.Size(701, 319);
             this.listBox2.TabIndex = 4;
             // 
             // nwDataSet1

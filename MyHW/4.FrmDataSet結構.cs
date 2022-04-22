@@ -35,7 +35,7 @@ namespace MyHW
                 string s = "";
                 for (int column = 0; column <= table.Columns.Count - 1; column++)
                 {
-                    s += table.Columns[column].ColumnName + "\t";
+                    s += $"{table.Columns[column].ColumnName,-40}";
                 }
                 this.listBox2.Items.Add(s);
 
@@ -44,7 +44,7 @@ namespace MyHW
                     string ss = "";
                     for (int j = 0; j <= table.Columns.Count - 1; j++)
                     {
-                        ss += table.Rows[row][j] + "\t";
+                        ss += $"{table.Rows[row][j],-40}";
                     }
                     this.listBox2.Items.Add(ss);
 

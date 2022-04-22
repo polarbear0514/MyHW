@@ -120,6 +120,12 @@
     <Compile Include="7.FrmCustomers.Designer.cs">
       <DependentUpon>7.FrmCustomers.cs</DependentUpon>
     </Compile>
+    <Compile Include="8.FrmTreeView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="8.FrmTreeView.Designer.cs">
+      <DependentUpon>8.FrmTreeView.cs</DependentUpon>
+    </Compile>
     <Compile Include="MADataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -130,6 +136,11 @@
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyAlbumDBDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyAlbumDBDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="NWDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -165,6 +176,9 @@
     <EmbeddedResource Include="7.FrmCustomers.resx">
       <DependentUpon>7.FrmCustomers.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="8.FrmTreeView.resx">
+      <DependentUpon>8.FrmTreeView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -198,6 +212,17 @@
     </None>
     <None Include="MADataSet.xss">
       <DependentUpon>MADataSet.xsd</DependentUpon>
+    </None>
+    <None Include="MyAlbumDBDataSet.xsc">
+      <DependentUpon>MyAlbumDBDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="MyAlbumDBDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>MyAlbumDBDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="MyAlbumDBDataSet.xss">
+      <DependentUpon>MyAlbumDBDataSet.xsd</DependentUpon>
     </None>
     <None Include="NWDataSet.xsc">
       <DependentUpon>NWDataSet.xsd</DependentUpon>

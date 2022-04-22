@@ -1,5 +1,6 @@
 ﻿using MyHW.Properties;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -84,10 +85,11 @@ namespace MyHW
                         SqlDataReader dataReader = command.ExecuteReader();
                         this.listView1.Items.Clear();
                         Random r = new Random();
+                        listView1.Groups.Clear();
                         while (dataReader.Read())
                         {
                             ListViewItem lvi = this.listView1.Items.Add(dataReader[0].ToString());
-                            lvi.ImageIndex = r.Next(0, ImageList1.Images.Count);                         
+                            lvi.ImageIndex = r.Next(0, ImageList1.Images.Count);
                             if (lvi.Index % 2 == 0)
                             {
                                 lvi.BackColor = Color.AntiqueWhite;
@@ -107,6 +109,7 @@ namespace MyHW
                                     lvi.SubItems.Add(dataReader[i].ToString());
                                 }
                             }
+                            
                         }
                     }
                     else
@@ -117,6 +120,7 @@ namespace MyHW
                         SqlDataReader dataReader = command.ExecuteReader();
                         this.listView1.Items.Clear();
                         Random r = new Random();
+                        listView1.Groups.Clear();
                         while (dataReader.Read())
                         {
                             ListViewItem lvi = this.listView1.Items.Add(dataReader[0].ToString());
@@ -325,6 +329,79 @@ namespace MyHW
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void countryToolStripMenuItem_Click(object sender, EventArgs e)
+        {  
+                        ArrayList countrylist = new ArrayList();
+                        createGroup(countrylist);
+                        for (int j = 0; j <= countrylist.Count - 1; j++)
+                        {
+                            ListViewGroup group = new ListViewGroup(countrylist[j].ToString(), countrylist[j].ToString());
+                            listView1.Groups.Add(group);
+                        }
+                        for (int k = 0; k <= countrylist.Count - 1; k++)
+                        {
+                            for (int l = 0; l < listView1.Items.Count; l++)
+                            {
+                                if (listView1.Items[l].SubItems[8].Text == countrylist[k].ToString())
+                                {
+                                    listView1.Items[l].Group = listView1.Groups[k]; ;
+                                }
+                            }
+                        }
+            ArrayList countrylist1 = new ArrayList();
+            createGroupwithNum(countrylist1);
+            for(int m = 0; m <= countrylist1.Count - 1; m++)
+            {
+                listView1.Groups[m].Header = countrylist1[m].ToString();
+            }
+        }
+        ArrayList createGroup(ArrayList list)
+        {
+            try
+            {            
+               using (SqlConnection conn = new SqlConnection(Settings.Default.NorthwindConnectionString))
+                {
+                    SqlCommand command = new SqlCommand();
+                    command.CommandText = $"SELECT Country, COUNT(Country) AS cnum from Customers GROUP BY Country";
+                    command.Connection = conn;
+                    conn.Open();
+                    SqlDataReader dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {  
+                        list.Add(dataReader["Country"].ToString());
+                    }         
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return list;
+        }
+        ArrayList createGroupwithNum(ArrayList list)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(Settings.Default.NorthwindConnectionString))
+                {
+                    SqlCommand command = new SqlCommand();
+                    command.CommandText = $"SELECT Country, COUNT(Country) AS cnum from Customers GROUP BY Country";
+                    command.Connection = conn;
+                    conn.Open();
+                    SqlDataReader dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        list.Add(dataReader["Country"].ToString() + "(" + dataReader["cnum"] + ")");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return list;
         }
     }
 }

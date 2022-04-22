@@ -20,12 +20,8 @@ namespace MyHW
         {
             InitializeComponent();
             this.areaTableAdapter1.Fill(this.maDataSet1.Area);
-            this.pictureTableAdapter1.Fill(this.maDataSet1.Picture);
-            this.dataGridView1.DataSource = this.maDataSet1.Picture;
+            this.pictureTableAdapter1.Fill(this.maDataSet1.Picture);  
             this.maDataSet1.Area[0].AreaName.ToString();
-            this.pictureBox1.AllowDrop = true;
-            this.pictureBox1.DragEnter += PictureBox1_DragEnter;
-            this.pictureBox1.DragDrop += PictureBox1_DragDrop;
             this.flowLayoutPanel3.AllowDrop = true;
             this.flowLayoutPanel3.DragEnter += FlowLayoutPanel3_DragEnter;
             this.flowLayoutPanel3.DragDrop += FlowLayoutPanel3_DragDrop;
@@ -120,8 +116,8 @@ namespace MyHW
 
         private void PictureBox1_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            this.pictureBox1.Image = Image.FromFile(files[0]);
+            //string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            //this.pictureBox1.Image = Image.FromFile(files[0]);
         }
 
         private void PictureBox1_DragEnter(object sender, DragEventArgs e)
@@ -152,13 +148,14 @@ namespace MyHW
                         pic.Height = 160;
                         pic.Click += Pic_Click;
                         this.flowLayoutPanel1.Controls.Add(pic);
-                        this.pictureBox1.Image = Image.FromStream(ms);
+                        //this.pictureBox1.Image = Image.FromStream(ms);
                     }
                 }
             }
             catch (Exception ex)
             {
-                this.pictureBox1.Image = this.pictureBox1.ErrorImage;
+                MessageBox.Show(ex.Message);
+                //this.pictureBox1.Image = this.pictureBox1.ErrorImage;
             }
 
         }
@@ -178,7 +175,7 @@ namespace MyHW
                         dataReader.Read();
                         byte[] bytes = (byte[])dataReader["Picture"];
                         System.IO.MemoryStream ms = new System.IO.MemoryStream(bytes);
-                        this.pictureBox1.Image = Image.FromStream(ms);
+                        //this.pictureBox1.Image = Image.FromStream(ms);
                     }
                     else
                     {
@@ -188,44 +185,35 @@ namespace MyHW
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message);
-                this.pictureBox1.Image = this.pictureBox1.ErrorImage;
+                MessageBox.Show(ex.Message);
+                //this.pictureBox1.Image = this.pictureBox1.ErrorImage;
             }
         }
-        private void button24_Click(object sender, EventArgs e)
-        {
-            this.openFileDialog1.Filter = "*.jpg|*.jpg|*.png|*.png";
-            if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                this.pictureBox1.Image = Image.FromFile(this.openFileDialog1.FileName);
-            }
-        }
-
         private void button25_Click(object sender, EventArgs e)
         {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(Settings.Default.MyAlbumDBConnectionString))
-                {
-                    SqlCommand command = new SqlCommand();
-                    command.CommandText = "Insert into Picture (AreaId,Description,Picture) Values(@AId,@Desc,@Picture)";
-                    command.Connection = conn;
-                    byte[] bytes;
-                    System.IO.MemoryStream ms = new System.IO.MemoryStream();
-                    this.pictureBox1.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    bytes = ms.GetBuffer();
-                    command.Parameters.Add("@AId", SqlDbType.Int).Value = this.textBox1.Text;
-                    command.Parameters.Add("@Desc", SqlDbType.Text).Value = this.textBox4.Text;
-                    command.Parameters.Add("@Picture", SqlDbType.Image).Value = bytes;
-                    conn.Open();
-                    command.ExecuteNonQuery();
-                    MessageBox.Show("Insert Image successfully ");
-                } 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //try
+            //{
+            //    using (SqlConnection conn = new SqlConnection(Settings.Default.MyAlbumDBConnectionString))
+            //    {
+            //        SqlCommand command = new SqlCommand();
+            //        command.CommandText = "Insert into Picture (AreaId,Description,Picture) Values(@AId,@Desc,@Picture)";
+            //        command.Connection = conn;
+            //        byte[] bytes;
+            //        System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            //        this.pictureBox1.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+            //        bytes = ms.GetBuffer();
+            //        command.Parameters.Add("@AId", SqlDbType.Int).Value = this.textBox1.Text;
+            //        command.Parameters.Add("@Desc", SqlDbType.Text).Value = this.textBox4.Text;
+            //        command.Parameters.Add("@Picture", SqlDbType.Image).Value = bytes;
+            //        conn.Open();
+            //        command.ExecuteNonQuery();
+            //        MessageBox.Show("Insert Image successfully ");
+            //    } 
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -254,13 +242,13 @@ namespace MyHW
                         pic.Height = 160;
                         pic.Click += Pic_Click;
                         this.flowLayoutPanel3.Controls.Add(pic);
-                        this.pictureBox1.Image = Image.FromStream(ms);
+                        
                     }
                 } 
             }
             catch (Exception ex)
             {
-                this.pictureBox1.Image = this.pictureBox1.ErrorImage;
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -323,6 +311,22 @@ namespace MyHW
                         return;
                     }
                 }
+            }
+        }
+
+        private void FrmMyAlbum_V2_Load(object sender, EventArgs e)
+        {
+            // TODO: 這行程式碼會將資料載入 'myAlbumDBDataSet.Picture' 資料表。您可以視需要進行移動或移除。
+            this.pictureTableAdapter.Fill(this.myAlbumDBDataSet.Picture);
+
+        }
+
+        private void button24_Click_1(object sender, EventArgs e)
+        {
+            this.openFileDialog1.Filter = "*.jpg|*.jpg|*.png|*.png";
+            if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                this.picturePictureBox.Image = Image.FromFile(this.openFileDialog1.FileName);
             }
         }
     }
